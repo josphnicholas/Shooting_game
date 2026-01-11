@@ -1,0 +1,64 @@
+#shootingFrame {
+    background-color: black;
+    height: 600px;
+    width: 800px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.target {
+    width: 150px;
+    height: 400px;
+    bottom: -400px;
+    position: absolute;
+    background-color: antiquewhite;
+    cursor: crosshair;
+    transition: all .5s;
+}
+
+.target.popup {
+    bottom: 0px;
+}
+
+#target1 {
+    left: 5px;
+}
+
+#target2 {
+    left: 165px;
+}
+
+#target3 {
+    left: 325px;
+}
+
+#target4 {
+    left: 485px;
+}
+
+#target5 {
+    left: 645px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.radioContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+#startBtn {
+    margin: 10px;
+}
