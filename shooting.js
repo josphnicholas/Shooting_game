@@ -10,6 +10,15 @@ let button = document.getElementById("startBtn")
 // Start button stays clickable; gameStart() will require a difficulty
 const notification = document.getElementById("notification")
 let notifTimeout
+const gameTimerEl = document.getElementById('gameTimer')
+const timerContainer = document.querySelector('.timerContainer')
+const gameDuration = 10 // seconds
+let countdownIntervalId
+let gameEndTimeoutId
+const stopButton = document.getElementById('stopBtn')
+
+// Stop button disabled until game running
+if (stopButton) stopButton.disabled = true
 
 function setTimeoutBasedOnDifficulty() {
     // default
@@ -42,6 +51,7 @@ targets.forEach((element) => {
 });
 
 button.addEventListener("click", gameStart)
+if (stopButton) stopButton.addEventListener('click', stopGame)
 
 function showNotification(msg, duration = 3000) {
     if (!notification) {
@@ -90,14 +100,52 @@ function gameStart() {
         updateScore(); // Update the score display
         // Disable start while game is running
         button.disabled = true
-        setTimeout(() => {
+        // Start countdown display
+        if (timerContainer) timerContainer.classList.add('show')
+        clearInterval(countdownIntervalId)
+        clearTimeout(gameEndTimeoutId)
+        let remaining = gameDuration
+        updateTimerDisplay(remaining)
+        countdownIntervalId = setInterval(() => {
+            remaining -= 1
+            if (remaining < 0) remaining = 0
+            updateTimerDisplay(remaining)
+        }, 1000)
+
+        // Enable Stop button while game is running
+        if (stopButton) stopButton.disabled = false
+
+        // End the game after `gameDuration` seconds
+        gameEndTimeoutId = setTimeout(() => {
                 start = 0
                 clearInterval(intervalId)
+                clearInterval(countdownIntervalId)
                 // Re-enable start so user can play again
                 button.disabled = false
-            }, 10000) // Set the game duration to 10 seconds
+                if (stopButton) stopButton.disabled = true
+                updateTimerDisplay(0)
+                if (timerContainer) timerContainer.classList.remove('show')
+            }, gameDuration * 1000)
         gameLoop()
     }
+}
+
+function stopGame() {
+    if (start === 0) return
+    start = 0
+    clearInterval(intervalId)
+    clearInterval(countdownIntervalId)
+    clearTimeout(gameEndTimeoutId)
+    // Reset UI
+    updateTimerDisplay(0)
+    if (timerContainer) timerContainer.classList.remove('show')
+    button.disabled = false
+    if (stopButton) stopButton.disabled = true
+}
+
+function updateTimerDisplay(seconds) {
+    if (!gameTimerEl) return
+    gameTimerEl.textContent = String(seconds)
 }
 
 function gameLoop() {

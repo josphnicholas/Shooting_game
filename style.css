@@ -46,10 +46,32 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: center;
+}
+
 .buttonContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.timerContainer {
+    text-align: center;
+    font-weight: 600;
+    margin-top: 6px;
+    color: #b30000;
+    display: none; /* hidden until game starts */
+}
+
+.timerContainer.show {
+    display: block;
+}
+
+#gameTimer {
+    display: inline-block;
+    min-width: 28px;
+    text-align: center;
 }
 
 .radioContainer {
@@ -60,6 +82,10 @@ h1 {
 }
 
 #startBtn {
+    margin: 10px;
+}
+
+#stopBtn {
     margin: 10px;
 }
 

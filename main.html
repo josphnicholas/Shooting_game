@@ -9,15 +9,10 @@
 </head>
 
 <body>
-    <h1 id="gameScore">Score = 0</h1>
-    <section id="shootingFrame">
-        <div class="target" id="target1"></div>
-        <div class="target" id="target2"></div>
-        <div class="target" id="target3"></div>
-        <div class="target" id="target4"></div>
-        <div class="target" id="target5"></div>
-    </section>
-    <div class="radioContainer">
+    <h1 id="gameName">Shooting Game</h1>
+    <h2 id="gameScore">Score = 0</h2>
+
+        <div class="radioContainer">
         <input type="radio" id="easy" name="difficulty" value="easy">
         <label for="easy">Easy</label>
         <input type="radio" id="medium" name="difficulty" value="medium">
@@ -27,6 +22,10 @@
     </div>
     <div class="buttonContainer">
         <button id="startBtn">Start Game</button>
+        <button id="stopBtn" disabled>Stop Game</button>
+    </div>
+    <div class="timerContainer">
+        Time left: <span id="gameTimer">10</span>s
     </div>
     <div id="notification" class="notification" aria-live="assertive" role="alert">
         <span class="notif-icon" aria-hidden="true">
@@ -37,6 +36,15 @@
         </span>
         <span class="notif-message"></span>
     </div>
+    
+    <section id="shootingFrame">
+        <div class="target" id="target1"></div>
+        <div class="target" id="target2"></div>
+        <div class="target" id="target3"></div>
+        <div class="target" id="target4"></div>
+        <div class="target" id="target5"></div>
+    </section>
+
     <script src="shooting.js"></script>
 </body>
 
