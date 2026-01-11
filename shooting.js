@@ -6,6 +6,11 @@ let intervalId
 let difficulty = document.querySelectorAll('input[name="difficulty"]')
 let timeout = 700 // default to 'medium' if none selected
 
+let button = document.getElementById("startBtn")
+// Start button stays clickable; gameStart() will require a difficulty
+const notification = document.getElementById("notification")
+let notifTimeout
+
 function setTimeoutBasedOnDifficulty() {
     // default
     timeout = 700
@@ -36,8 +41,22 @@ targets.forEach((element) => {
     element.addEventListener("click", targetShot)
 });
 
-let button = document.getElementById("startBtn")
 button.addEventListener("click", gameStart)
+
+function showNotification(msg, duration = 3000) {
+    if (!notification) {
+        // fallback to alert if notification element missing
+        alert(msg)
+        return
+    }
+    clearTimeout(notifTimeout)
+    const msgSpan = notification.querySelector('.notif-message')
+    if (msgSpan) msgSpan.textContent = msg
+    notification.classList.add('show')
+    notifTimeout = setTimeout(() => {
+        notification.classList.remove('show')
+    }, duration)
+}
 
 function targetShot(e) {
     // Only count a hit if the target is currently popped up (visible)
@@ -58,13 +77,24 @@ function updateScore() {
 }
 
 function gameStart() {
+    // Require a difficulty selection before starting
+    const selected = Array.from(difficulty).some(d => d.checked)
+    if (!selected) {
+        showNotification("Please select the difficulty")
+        return
+    }
+
     if (start === 0) {
         start = 1
         score = 0
         updateScore(); // Update the score display
+        // Disable start while game is running
+        button.disabled = true
         setTimeout(() => {
                 start = 0
                 clearInterval(intervalId)
+                // Re-enable start so user can play again
+                button.disabled = false
             }, 10000) // Set the game duration to 10 seconds
         gameLoop()
     }

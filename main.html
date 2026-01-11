@@ -28,6 +28,15 @@
     <div class="buttonContainer">
         <button id="startBtn">Start Game</button>
     </div>
+    <div id="notification" class="notification" aria-live="assertive" role="alert">
+        <span class="notif-icon" aria-hidden="true">
+            <!-- small bell SVG icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+                <path d="M12 2a4 4 0 00-4 4v1.1C6.67 8.03 6 9.44 6 11v3l-1 1v1h14v-1l-1-1v-3c0-1.56-.67-2.97-2-3.9V6a4 4 0 00-4-4zm0 20a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22z"/>
+            </svg>
+        </span>
+        <span class="notif-message"></span>
+    </div>
     <script src="shooting.js"></script>
 </body>
 
