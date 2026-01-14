@@ -12,13 +12,10 @@
     <h1 id="gameName">Shooting Game</h1>
     <h2 id="gameScore">Score = 0</h2>
 
-        <div class="radioContainer">
-        <input type="radio" id="easy" name="difficulty" value="easy">
-        <label for="easy">Easy</label>
-        <input type="radio" id="medium" name="difficulty" value="medium">
-        <label for="medium">Medium</label>
-        <input type="radio" id="hard" name="difficulty" value="hard">
-        <label for="hard">Hard</label>
+        <div class="difficultyContainer">
+        <button class="difficulty-btn" data-value="easy">Easy</button>
+        <button class="difficulty-btn active" data-value="medium">Medium</button>
+        <button class="difficulty-btn" data-value="hard">Hard</button>
     </div>
     <div class="buttonContainer">
         <button id="startBtn">Start Game</button>

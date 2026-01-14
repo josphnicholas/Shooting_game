@@ -3,7 +3,8 @@ let gameScore = document.querySelector("#gameScore")
 let score = 0
 let start = 0
 let intervalId
-let difficulty = document.querySelectorAll('input[name="difficulty"]')
+let difficultyButtons = document.querySelectorAll('.difficulty-btn')
+const difficultyContainer = document.querySelector('.difficultyContainer')
 let timeout = 700 // default to 'medium' if none selected
 
 let button = document.getElementById("startBtn")
@@ -21,27 +22,33 @@ const stopButton = document.getElementById('stopBtn')
 if (stopButton) stopButton.disabled = true
 
 function setTimeoutBasedOnDifficulty() {
-    // default
     timeout = 700
-    difficulty.forEach((d) => {
-        if (d.checked) {
-            if (d.value === "easy") {
-                timeout = 1000
-            } else if (d.value === "medium") {
-                timeout = 700
-            } else {
-                timeout = 400
-            }
-        }
-    })
+    const active = document.querySelector('.difficulty-btn.active')
+    if (!active) return
+    const val = active.dataset.value
+    if (val === 'easy') timeout = 1000
+    else if (val === 'medium') timeout = 700
+    else timeout = 400
 }
 
 // Call the function initially to set the timeout based on the difficulty
 setTimeoutBasedOnDifficulty()
 
-difficulty.forEach((radio) => {
-    radio.addEventListener("change", () => {
-        // Update the timeout when the difficulty changes
+// ensure a default active button exists
+if (!document.querySelector('.difficulty-btn.active')) {
+    const def = document.querySelector('.difficulty-btn[data-value="medium"]')
+    if (def) def.classList.add('active')
+}
+
+// wire up difficulty buttons
+difficultyButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        if (start === 1) {
+            showNotification('Cannot change difficulty during the game', 1200)
+            return
+        }
+        difficultyButtons.forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
         setTimeoutBasedOnDifficulty()
     })
 })
@@ -88,7 +95,7 @@ function updateScore() {
 
 function gameStart() {
     // Require a difficulty selection before starting
-    const selected = Array.from(difficulty).some(d => d.checked)
+    const selected = !!document.querySelector('.difficulty-btn.active')
     if (!selected) {
         showNotification("Please select the difficulty")
         return
@@ -100,6 +107,9 @@ function gameStart() {
         updateScore(); // Update the score display
         // Disable start while game is running
         button.disabled = true
+        // disable difficulty selection while game runs
+        difficultyButtons.forEach(d => d.disabled = true)
+        if (difficultyContainer) difficultyContainer.classList.add('disabled')
         // Start countdown display
         if (timerContainer) timerContainer.classList.add('show')
         clearInterval(countdownIntervalId)
@@ -123,7 +133,10 @@ function gameStart() {
                 // Re-enable start so user can play again
                 button.disabled = false
                 if (stopButton) stopButton.disabled = true
-                updateTimerDisplay(0)
+                // re-enable difficulty selection
+                difficultyButtons.forEach(d => d.disabled = false)
+                if (difficultyContainer) difficultyContainer.classList.remove('disabled')
+            updateTimerDisplay(0)
                 if (timerContainer) timerContainer.classList.remove('show')
             }, gameDuration * 1000)
         gameLoop()
@@ -141,6 +154,9 @@ function stopGame() {
     if (timerContainer) timerContainer.classList.remove('show')
     button.disabled = false
     if (stopButton) stopButton.disabled = true
+    // re-enable difficulty selection when stopped
+    difficultyButtons.forEach(d => d.disabled = false)
+    if (difficultyContainer) difficultyContainer.classList.remove('disabled')
 }
 
 function updateTimerDisplay(seconds) {
