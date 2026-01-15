@@ -85,8 +85,8 @@ function targetShot(e) {
 function targetPopUp(target) {
     target.classList.add("popup")
     setTimeout(() => {
-            target.classList.remove("popup")
-        }, timeout) // Remove the 'popup' class after the specified duration
+        target.classList.remove("popup")
+    }, timeout) // Remove the 'popup' class after the specified duration
 }
 
 function updateScore() {
@@ -127,18 +127,18 @@ function gameStart() {
 
         // End the game after `gameDuration` seconds
         gameEndTimeoutId = setTimeout(() => {
-                start = 0
-                clearInterval(intervalId)
-                clearInterval(countdownIntervalId)
-                // Re-enable start so user can play again
-                button.disabled = false
-                if (stopButton) stopButton.disabled = true
-                // re-enable difficulty selection
-                difficultyButtons.forEach(d => d.disabled = false)
-                if (difficultyContainer) difficultyContainer.classList.remove('disabled')
+            start = 0
+            clearInterval(intervalId)
+            clearInterval(countdownIntervalId)
+            // Re-enable start so user can play again
+            button.disabled = false
+            if (stopButton) stopButton.disabled = true
+            // re-enable difficulty selection
+            difficultyButtons.forEach(d => d.disabled = false)
+            if (difficultyContainer) difficultyContainer.classList.remove('disabled')
             updateTimerDisplay(0)
-                if (timerContainer) timerContainer.classList.remove('show')
-            }, gameDuration * 1000)
+            if (timerContainer) timerContainer.classList.remove('show')
+        }, gameDuration * 1000)
         gameLoop()
     }
 }
@@ -166,12 +166,12 @@ function updateTimerDisplay(seconds) {
 
 function gameLoop() {
     intervalId = setInterval(() => {
-            if (start === 0) {
-                clearInterval(intervalId)
-            } else {
-                let random = Math.floor(Math.random() * 5 + 1)
-                let target = document.querySelector("#target" + random)
-                targetPopUp(target)
-            }
-        }, timeout) // Pop up targets based on the specified duration
+        if (start === 0) {
+            clearInterval(intervalId)
+        } else {
+            let random = Math.floor(Math.random() * 5 + 1)
+            let target = document.querySelector("#target" + random)
+            targetPopUp(target)
+        }
+    }, timeout) // Pop up targets based on the specified duration
 }

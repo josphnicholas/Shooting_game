@@ -1,11 +1,102 @@
+/* ========================================
+   TECH-SAVVY AIM TRAINER - CYBERPUNK THEME
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+
+:root {
+    /* Cyberpunk Color Palette */
+    --bg-dark: #0a0e27;
+    --bg-darker: #050814;
+    --neon-cyan: #00f0ff;
+    --neon-magenta: #ff00ff;
+    --neon-purple: #9d4edd;
+    --neon-green: #39ff14;
+    --neon-red: #ff0055;
+    --neon-yellow: #ffea00;
+
+    /* UI Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0ff;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg-dark);
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(157, 78, 221, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Grid Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
 #shootingFrame {
-    background-color: black;
+    background: linear-gradient(135deg, rgba(5, 8, 20, 0.9), rgba(10, 14, 39, 0.9));
+    border: 2px solid var(--neon-cyan);
+    border-radius: 20px;
+    box-shadow:
+        0 0 50px rgba(0, 240, 255, 0.3),
+        inset 0 0 50px rgba(0, 240, 255, 0.05);
     height: 600px;
-    width: 800px;
-    margin: auto;
+    max-width: 1200px;
+    width: 90%;
+    margin: 2rem auto;
     position: relative;
     overflow: hidden;
     cursor: crosshair;
+}
+
+/* Animated corner accents */
+#shootingFrame::before,
+#shootingFrame::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--neon-cyan);
+    opacity: 0.6;
+}
+
+#shootingFrame::before {
+    top: 10px;
+    left: 10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+#shootingFrame::after {
+    bottom: 10px;
+    right: 10px;
+    border-left: none;
+    border-top: none;
 }
 
 .target {
@@ -42,12 +133,50 @@
     left: 645px;
 }
 
+
+/* ========================================
+   HEADER & TITLE
+   ======================================== */
+
 h1 {
+    font-family: 'Orbitron', sans-serif;
     text-align: center;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    margin: 2rem 0 1rem;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+    letter-spacing: 3px;
+    position: relative;
+    z-index: 1;
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.2);
+    }
 }
 
 h2 {
+    font-family: 'Orbitron', sans-serif;
     text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .buttonContainer {
@@ -61,7 +190,8 @@ h2 {
     font-weight: 600;
     margin-top: 6px;
     color: #b30000;
-    display: none; /* hidden until game starts */
+    display: none;
+    /* hidden until game starts */
 }
 
 .timerContainer.show {
@@ -109,8 +239,15 @@ h2 {
     transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-#startBtn:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.12); transform: translateY(-2px); }
-#stopBtn:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.12); transform: translateY(-2px); }
+#startBtn:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+#stopBtn:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
 
 /* Notification popup */
 #notification {
@@ -118,11 +255,11 @@ h2 {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(90deg,#ff5f6d 0%,#b30000 100%);
+    background: linear-gradient(90deg, #ff5f6d 0%, #b30000 100%);
     color: #fff;
     padding: 12px 18px;
     border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(4,7,26,0.6);
+    box-shadow: 0 8px 24px rgba(4, 7, 26, 0.6);
     font-size: 14px;
     z-index: 9999;
     opacity: 0;
@@ -143,11 +280,13 @@ h2 {
     margin-right: 10px;
     vertical-align: middle;
 }
+
 .notif-icon svg {
     width: 100%;
     height: 100%;
     fill: #FFD54F;
 }
+
 .notif-message {
     vertical-align: middle;
 }
@@ -162,12 +301,14 @@ h2 {
     cursor: pointer;
     font-weight: 600;
 }
+
 .difficulty-btn.active {
-    box-shadow: 0 6px 18px rgba(179,0,0,0.25);
-    background: linear-gradient(90deg,#fff5f6 0%,#ffb3b8 100%);
+    box-shadow: 0 6px 18px rgba(179, 0, 0, 0.25);
+    background: linear-gradient(90deg, #fff5f6 0%, #ffb3b8 100%);
     border-color: #b30000;
     color: #600;
 }
+
 .difficulty-btn:disabled,
 .difficulty-btn.disabled {
     opacity: 0.55;
