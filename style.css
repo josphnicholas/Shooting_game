@@ -99,38 +99,105 @@ body::before {
     border-top: none;
 }
 
+/* ========================================
+   TARGETS (AIM LAB STYLE)
+   ======================================== */
+
 .target {
-    width: 150px;
-    height: 400px;
-    bottom: -400px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
     position: absolute;
-    background-color: antiquewhite;
     cursor: crosshair;
-    transition: all .5s;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s ease;
+    pointer-events: none;
 }
 
 .target.popup {
-    bottom: 0px;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    animation: targetAppear 0.3s ease;
 }
 
-#target1 {
-    left: 5px;
+@keyframes targetAppear {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(180deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
 }
 
-#target2 {
-    left: 165px;
+/* Concentric circles for targets */
+.target::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle,
+            var(--neon-red) 0%,
+            var(--neon-red) 15%,
+            transparent 15%,
+            transparent 30%,
+            var(--neon-red) 30%,
+            var(--neon-red) 45%,
+            transparent 45%,
+            transparent 60%,
+            var(--neon-red) 60%,
+            var(--neon-red) 75%,
+            transparent 75%);
+    box-shadow:
+        0 0 30px rgba(255, 0, 85, 0.6),
+        inset 0 0 20px rgba(255, 0, 85, 0.3);
+    animation: targetPulse 1s ease-in-out infinite;
 }
 
-#target3 {
-    left: 325px;
+/* Crosshair in center */
+.target::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--neon-yellow);
+    box-shadow:
+        0 0 20px rgba(255, 234, 0, 0.8),
+        0 0 10px rgba(255, 234, 0, 0.5);
+    z-index: 2;
 }
 
-#target4 {
-    left: 485px;
+@keyframes targetPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
 }
 
-#target5 {
-    left: 645px;
+.target:hover::before {
+    animation: targetPulse 0.3s ease-in-out infinite;
 }
 
 
@@ -179,92 +246,163 @@ h2 {
     z-index: 1;
 }
 
+/* ========================================
+   CONTROL BUTTONS
+   ======================================== */
+
 .buttonContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+    z-index: 1;
 }
+
+/* ========================================
+   TIMER
+   ======================================== */
 
 .timerContainer {
     text-align: center;
-    font-weight: 600;
-    margin-top: 6px;
-    color: #b30000;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 20px rgba(255, 234, 0, 0.8);
+    margin: 1rem 0;
     display: none;
-    /* hidden until game starts */
+    position: relative;
+    z-index: 1;
 }
 
 .timerContainer.show {
     display: block;
+    animation: timerPulse 1s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 #gameTimer {
     display: inline-block;
-    min-width: 28px;
+    min-width: 40px;
     text-align: center;
+    font-size: 1.5rem;
 }
+
+/* ========================================
+   DIFFICULTY SELECTOR
+   ======================================== */
 
 .difficultyContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
+    gap: 1rem;
+    margin: 1.5rem auto;
+    position: relative;
+    z-index: 1;
 }
 
-/* visually and functionally disable the difficulty controls during a game */
 .difficultyContainer.disabled {
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
-#startBtn {
-    margin: 10px;
-    padding: 8px 14px;
-    border: 2px solid #444;
-    border-radius: 6px;
-    background: #fff;
-    cursor: pointer;
+#startBtn,
+#stopBtn {
+    font-family: 'Orbitron', sans-serif;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    transition: transform 120ms ease, box-shadow 120ms ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-green), #2dd36f);
+    border: none;
+    border-radius: 10px;
+    color: var(--bg-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 25px rgba(57, 255, 20, 0.4);
+    position: relative;
+    overflow: hidden;
 }
 
 #stopBtn {
-    margin: 10px;
-    padding: 8px 14px;
-    border: 2px solid #555;
-    border-radius: 6px;
-    background: #fff;
-    cursor: pointer;
-    font-weight: 700;
-    transition: transform 120ms ease, box-shadow 120ms ease;
+    background: linear-gradient(135deg, var(--neon-red), #ff3366);
+    box-shadow: 0 5px 25px rgba(255, 0, 85, 0.4);
 }
 
-#startBtn:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+#startBtn:disabled,
+#stopBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
-#stopBtn:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+#startBtn:not(:disabled):hover,
+#stopBtn:not(:disabled):hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 35px rgba(57, 255, 20, 0.6);
 }
 
-/* Notification popup */
+#stopBtn:not(:disabled):hover {
+    box-shadow: 0 8px 35px rgba(255, 0, 85, 0.6);
+}
+
+#startBtn::after,
+#stopBtn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+#startBtn:active::after,
+#stopBtn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ========================================
+   NOTIFICATION
+   ======================================== */
+
 #notification {
     position: fixed;
     top: 20px;
     left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, #ff5f6d 0%, #b30000 100%);
+    transform: translateX(-50%) translateY(-20px);
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.95), rgba(255, 0, 255, 0.95));
+    backdrop-filter: blur(10px);
     color: #fff;
-    padding: 12px 18px;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(4, 7, 26, 0.6);
-    font-size: 14px;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--neon-magenta);
+    box-shadow: 0 8px 32px rgba(255, 0, 255, 0.5);
+    font-size: 1rem;
+    font-weight: 600;
     z-index: 9999;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 200ms ease, transform 200ms ease;
+    transition: all 0.3s ease;
 }
 
 #notification.show {
@@ -275,8 +413,8 @@ h2 {
 
 .notif-icon {
     display: inline-block;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     margin-right: 10px;
     vertical-align: middle;
 }
@@ -284,33 +422,59 @@ h2 {
 .notif-icon svg {
     width: 100%;
     height: 100%;
-    fill: #FFD54F;
+    fill: var(--neon-yellow);
+    filter: drop-shadow(0 0 5px var(--neon-yellow));
 }
 
 .notif-message {
     vertical-align: middle;
 }
 
-/* Difficulty buttons */
 .difficulty-btn {
-    margin: 0 6px;
-    padding: 8px 14px;
-    background: #eee;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
     cursor: pointer;
-    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.difficulty-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 240, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.difficulty-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.difficulty-btn:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    transform: translateY(-2px);
 }
 
 .difficulty-btn.active {
-    box-shadow: 0 6px 18px rgba(179, 0, 0, 0.25);
-    background: linear-gradient(90deg, #fff5f6 0%, #ffb3b8 100%);
-    border-color: #b30000;
-    color: #600;
-}
-
-.difficulty-btn:disabled,
-.difficulty-btn.disabled {
-    opacity: 0.55;
-    pointer-events: none;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(157, 78, 221, 0.2));
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.6), inset 0 0 20px rgba(0, 240, 255, 0.1);
 }
