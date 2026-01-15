@@ -21,14 +21,29 @@ const stopButton = document.getElementById('stopBtn')
 // Stop button disabled until game running
 if (stopButton) stopButton.disabled = true
 
+let targetSize = 80 // pixels
+
 function setTimeoutBasedOnDifficulty() {
     timeout = 700
     const active = document.querySelector('.difficulty-btn.active')
     if (!active) return
     const val = active.dataset.value
-    if (val === 'easy') timeout = 1000
-    else if (val === 'medium') timeout = 700
-    else timeout = 400
+    if (val === 'easy') {
+        timeout = 1200
+        targetSize = 100
+    } else if (val === 'medium') {
+        timeout = 800
+        targetSize = 80
+    } else {
+        timeout = 500
+        targetSize = 60
+    }
+
+    // Update target sizes
+    targets.forEach(target => {
+        target.style.width = targetSize + 'px'
+        target.style.height = targetSize + 'px'
+    })
 }
 
 // Call the function initially to set the timeout based on the difficulty
@@ -80,6 +95,20 @@ function targetShot(e) {
     if (!e.currentTarget.classList.contains('popup')) return
     score++
     updateScore()
+}
+
+function positionTargetRandomly(target) {
+    const shootingFrame = document.getElementById('shootingFrame')
+    const frameRect = shootingFrame.getBoundingClientRect()
+    const maxX = frameRect.width - targetSize - 20
+    const maxY = frameRect.height - targetSize - 20
+
+    const randomX = Math.random() * maxX + 10
+    const randomY = Math.random() * maxY + 10
+
+    target.style.left = randomX + 'px'
+    target.style.top = randomY + 'px'
+    target.style.bottom = 'auto' // Override old positioning
 }
 
 function targetPopUp(target) {
@@ -169,8 +198,14 @@ function gameLoop() {
         if (start === 0) {
             clearInterval(intervalId)
         } else {
-            let random = Math.floor(Math.random() * 5 + 1)
-            let target = document.querySelector("#target" + random)
+            // Random target selection
+            const randomIndex = Math.floor(Math.random() * targets.length)
+            const target = targets[randomIndex]
+
+            // Random position within shooting frame
+            positionTargetRandomly(target)
+
+            // Show target
             targetPopUp(target)
         }
     }, timeout) // Pop up targets based on the specified duration
