@@ -7,14 +7,36 @@
     <meta name="description" content="Tech-savvy Aim Lab style shooting game trainer with cyberpunk theme">
     <meta name="keywords" content="aim trainer, shooting game, aim lab, gaming">
     <link rel="stylesheet" href="style.css">
-    <title>Shooting Game | Tech Edition</title>
+    <title>Shooting Game</title>
 </head>
 
 <body>
     <h1 id="gameName">SHOOTING GAME</h1>
     <h2 id="gameScore">Score = 0</h2>
 
-    <!-- Stats panel will be dynamically created by JavaScript -->
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-label">Accuracy</div>
+            <div class="stat-value" id="accuracy-stat">0%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Avg Reaction</div>
+            <div class="stat-value" id="reaction-stat">0ms</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Max Combo</div>
+            <div class="stat-value" id="combo-stat">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Misses</div>
+            <div class="stat-value" id="misses-stat">0</div>
+        </div>
+    </div>
+
+    <div class="combo-container">
+        <div class="combo-label">COMBO</div>
+        <div class="combo-value" id="combo-display">0</div>
+    </div>
 
     <div class="difficultyContainer">
         <button class="difficulty-btn" data-value="easy">Easy</button>

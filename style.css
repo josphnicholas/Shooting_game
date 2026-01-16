@@ -1,7 +1,3 @@
-/* ========================================
-   TECH-SAVVY AIM TRAINER - CYBERPUNK THEME
-   ======================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
 
 :root {
@@ -65,10 +61,10 @@ body::before {
     box-shadow:
         0 0 50px rgba(0, 240, 255, 0.3),
         inset 0 0 50px rgba(0, 240, 255, 0.05);
-    height: 600px;
+    height: 450px;
     max-width: 1200px;
     width: 90%;
-    margin: 2rem auto;
+    margin: 1rem auto;
     position: relative;
     overflow: hidden;
     cursor: crosshair;
@@ -99,10 +95,7 @@ body::before {
     border-top: none;
 }
 
-/* ========================================
-   TARGETS (AIM LAB STYLE)
-   ======================================== */
-
+/* Target design */
 .target {
     width: 80px;
     height: 80px;
@@ -138,7 +131,6 @@ body::before {
     }
 }
 
-/* Concentric circles for targets */
 .target::before {
     content: '';
     position: absolute;
@@ -165,6 +157,7 @@ body::before {
         0 0 30px rgba(255, 0, 85, 0.6),
         inset 0 0 20px rgba(255, 0, 85, 0.3);
     animation: targetPulse 1s ease-in-out infinite;
+    pointer-events: none;
 }
 
 /* Crosshair in center */
@@ -182,6 +175,7 @@ body::before {
         0 0 20px rgba(255, 234, 0, 0.8),
         0 0 10px rgba(255, 234, 0, 0.5);
     z-index: 2;
+    pointer-events: none;
 }
 
 @keyframes targetPulse {
@@ -200,16 +194,12 @@ body::before {
     animation: targetPulse 0.3s ease-in-out infinite;
 }
 
-/* ========================================
-   STATS PANEL
-   ======================================== */
-
 .stats-container {
     display: flex;
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
     max-width: 1200px;
     padding: 0 1rem;
     position: relative;
@@ -273,10 +263,6 @@ body::before {
     text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
 }
 
-/* ========================================
-   COMBO COUNTER
-   ======================================== */
-
 .combo-container {
     position: fixed;
     top: 20%;
@@ -323,9 +309,7 @@ body::before {
     }
 }
 
-/* ========================================
-   HIT/MISS FEEDBACK
-   ======================================== */
+/* Visual Feedback */
 
 .hit-marker {
     position: absolute;
@@ -418,10 +402,6 @@ body::before {
     }
 }
 
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
-
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem;
@@ -511,17 +491,12 @@ body::before {
 }
 
 
-
-/* ========================================
-   HEADER & TITLE
-   ======================================== */
-
 h1 {
     font-family: 'Orbitron', sans-serif;
     text-align: center;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 900;
-    margin: 2rem 0 1rem;
+    margin: 0.8rem 0 0.5rem;
     background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
     -webkit-background-clip: text;
     background-clip: text;
@@ -548,18 +523,14 @@ h1 {
 h2 {
     font-family: 'Orbitron', sans-serif;
     text-align: center;
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     font-weight: 700;
     color: var(--neon-cyan);
     text-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     position: relative;
     z-index: 1;
 }
-
-/* ========================================
-   CONTROL BUTTONS
-   ======================================== */
 
 .buttonContainer {
     display: flex;
@@ -570,10 +541,6 @@ h2 {
     position: relative;
     z-index: 1;
 }
-
-/* ========================================
-   TIMER
-   ======================================== */
 
 .timerContainer {
     text-align: center;
@@ -611,10 +578,6 @@ h2 {
     text-align: center;
     font-size: 1.5rem;
 }
-
-/* ========================================
-   DIFFICULTY SELECTOR
-   ======================================== */
 
 .difficultyContainer {
     display: flex;
@@ -692,9 +655,6 @@ h2 {
     height: 300px;
 }
 
-/* ========================================
-   NOTIFICATION
-   ======================================== */
 
 #notification {
     position: fixed;

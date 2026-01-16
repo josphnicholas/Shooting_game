@@ -23,6 +23,7 @@ let intervalId
 let countdownIntervalId
 let gameEndTimeoutId
 let notifTimeout
+let targetTimeouts = new Map() // Track timeout for each target
 
 // Game Settings
 const gameDuration = 30 // seconds
@@ -35,61 +36,12 @@ let accuracyEl, avgReactionEl, comboEl, missesEl
 // Stop button disabled until game running
 if (stopButton) stopButton.disabled = true
 
-// Create stats panel on load
-createStatsPanel()
+// Get stats elements (now in HTML)
+accuracyEl = document.getElementById('accuracy-stat')
+avgReactionEl = document.getElementById('reaction-stat')
+comboEl = document.getElementById('combo-stat')
+missesEl = document.getElementById('misses-stat')
 
-// ========================================
-// STATS PANEL
-// ========================================
-
-function createStatsPanel() {
-    let statsContainer = document.querySelector('.stats-container')
-
-    if (!statsContainer) {
-        statsContainer = document.createElement('div')
-        statsContainer.className = 'stats-container'
-
-        // Insert after h2
-        const h2 = document.querySelector('h2')
-        h2.parentNode.insertBefore(statsContainer, h2.nextSibling)
-    }
-
-    statsContainer.innerHTML = `
-        <div class="stat-card">
-            <div class="stat-label">Accuracy</div>
-            <div class="stat-value" id="accuracy-stat">0%</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Avg Reaction</div>
-            <div class="stat-value" id="reaction-stat">0ms</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Max Combo</div>
-            <div class="stat-value" id="combo-stat">0</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Misses</div>
-            <div class="stat-value" id="misses-stat">0</div>
-        </div>
-    `
-
-    accuracyEl = document.getElementById('accuracy-stat')
-    avgReactionEl = document.getElementById('reaction-stat')
-    comboEl = document.getElementById('combo-stat')
-    missesEl = document.getElementById('misses-stat')
-
-    // Create combo counter overlay
-    let comboContainer = document.querySelector('.combo-container')
-    if (!comboContainer) {
-        comboContainer = document.createElement('div')
-        comboContainer.className = 'combo-container'
-        comboContainer.innerHTML = `
-            <div class="combo-label">COMBO</div>
-            <div class="combo-value" id="combo-display">0</div>
-        `
-        document.body.appendChild(comboContainer)
-    }
-}
 
 function setTimeoutBasedOnDifficulty() {
     timeout = 700
@@ -207,21 +159,27 @@ function positionTargetRandomly(target) {
 }
 
 function targetPopUp(target) {
+    // Clear any existing timeout for this target
+    if (targetTimeouts.has(target)) {
+        clearTimeout(targetTimeouts.get(target))
+    }
+
     target.classList.remove("popup")
     void target.offsetWidth
     target.classList.add("popup")
     targetAppearTime = Date.now()
 
-    setTimeout(() => {
+    // Store the timeout ID for this target
+    const timeoutId = setTimeout(() => {
         if (target.classList.contains('popup')) {
             target.classList.remove("popup")
         }
+        targetTimeouts.delete(target)
     }, timeout)
+
+    targetTimeouts.set(target, timeoutId)
 }
 
-// ========================================
-// STATS & DISPLAY
-// ========================================
 
 function updateScore() {
     gameScore.textContent = "Score = " + score
@@ -245,9 +203,6 @@ function updateStats() {
     if (missesEl) missesEl.textContent = misses
 }
 
-// ========================================
-// VISUAL FEEDBACK
-// ========================================
 
 function createHitMarker(x, y) {
     const marker = document.createElement('div')
@@ -296,6 +251,16 @@ function handleFrameClick(e) {
 
     // Check if click was on a target
     if (e.target.classList.contains('target')) return
+
+    // Check if click is within any visible target bounds
+    const visibleTargets = document.querySelectorAll('.target.popup')
+    for (const target of visibleTargets) {
+        const rect = target.getBoundingClientRect()
+        if (e.clientX >= rect.left && e.clientX <= rect.right &&
+            e.clientY >= rect.top && e.clientY <= rect.bottom) {
+            return
+        }
+    }
 
     // Miss!
     totalShots++
@@ -352,17 +317,7 @@ function gameStart() {
 
         // End the game after `gameDuration` seconds
         gameEndTimeoutId = setTimeout(() => {
-            start = 0
-            clearInterval(intervalId)
-            clearInterval(countdownIntervalId)
-            // Re-enable start so user can play again
-            button.disabled = false
-            if (stopButton) stopButton.disabled = true
-            // re-enable difficulty selection
-            difficultyButtons.forEach(d => d.disabled = false)
-            if (difficultyContainer) difficultyContainer.classList.remove('disabled')
-            updateTimerDisplay(0)
-            if (timerContainer) timerContainer.classList.remove('show')
+            stopGame()
         }, gameDuration * 1000)
 
         // Start game loop and spawn first target immediately
@@ -405,8 +360,10 @@ function showFinalStats() {
         ? Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length)
         : 0
 
-    const message = `Game Over! Score: ${score} | Accuracy: ${accuracy}% | Avg Reaction: ${avgReaction}ms | Max Combo: ${maxCombo}`
-    showNotification(message, 5000)
+    let message = `🎯 Game Over!\n\n`
+    message += `Score: ${score} | Accuracy: ${accuracy}% | Avg Reaction: ${avgReaction}ms | Max Combo: ${maxCombo}`
+
+    showNotification(message, 3000)
 }
 
 function updateTimerDisplay(seconds) {
@@ -417,9 +374,13 @@ function updateTimerDisplay(seconds) {
 function spawnTarget() {
     if (start === 0) return
 
+    // Get only hidden targets
+    const hiddenTargets = Array.from(targets).filter(t => !t.classList.contains('popup'))
+    const availableTargets = hiddenTargets.length > 0 ? hiddenTargets : Array.from(targets)
+
     // Random target selection
-    const randomIndex = Math.floor(Math.random() * targets.length)
-    const target = targets[randomIndex]
+    const randomIndex = Math.floor(Math.random() * availableTargets.length)
+    const target = availableTargets[randomIndex]
 
     // Random position within shooting frame
     positionTargetRandomly(target)
