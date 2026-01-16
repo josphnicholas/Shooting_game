@@ -49,7 +49,7 @@ Deployed on Netlify
 - Keyframe animations
 - Responsive breakpoints
 
-**Structure** ([main.html](main.html))
+**Structure** ([index.html](index.html))
 - Semantic HTML5
 - Accessible markup
 - Stats panel with live updates
