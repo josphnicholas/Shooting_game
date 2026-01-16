@@ -116,6 +116,11 @@ function showNotification(msg, duration = 3000) {
 
 function targetShot(e) {
     e.stopPropagation() // Prevent frame click
+    e.preventDefault() // Prevent default behavior
+
+    // Set flag to prevent frame click from registering
+    window.justHitTarget = true
+    setTimeout(() => { window.justHitTarget = false }, 50)
 
     // Only count a hit if the target is currently popped up (visible)
     if (!e.currentTarget.classList.contains('popup')) return
@@ -248,6 +253,9 @@ function updateComboDisplay() {
 
 function handleFrameClick(e) {
     if (start === 0) return
+
+    // Don't register miss if we just hit a target
+    if (window.justHitTarget) return
 
     // Check if click was on a target
     if (e.target.classList.contains('target')) return
