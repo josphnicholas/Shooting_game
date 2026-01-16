@@ -116,8 +116,8 @@ body::before {
 }
 
 .target.popup {
-    opacity: 1;
-    transform: scale(1);
+    opacity: 1 !important;
+    transform: scale(1) !important;
     pointer-events: auto;
     animation: targetAppear 0.3s ease;
 }
