@@ -2,6 +2,12 @@
 
 A simple shooting game inspired by Aim Lab built with vanilla HTML, CSS, and JavaScript.
 
+## Live Demo
+
+**[Play the game here](https://shootinggame-joseph.netlify.app/)**
+
+Deployed on Netlify
+
 <img width="1904" height="945" alt="image" src="https://github.com/user-attachments/assets/0bdfa6ec-8189-4f03-8ca0-91f92f91a6a4" />
 
 ## Features
