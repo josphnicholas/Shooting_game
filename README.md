@@ -6,118 +6,61 @@ A simple shooting game inspired by Aim Lab built with vanilla HTML, CSS, and Jav
 
 **[Play the game here](https://shootinggame-joseph.netlify.app/)**
 
-Deployed on Netlify
+Deployed on Netlify.
 
 <img width="1904" height="945" alt="image" src="https://github.com/user-attachments/assets/0bdfa6ec-8189-4f03-8ca0-91f92f91a6a4" />
 
+---
+
 ## Features
 
-- **Three Difficulty Levels**: Easy, Medium, and Hard with varying target sizes and durations
-- **Real-time Stats Tracking**: Accuracy, average reaction time, max combo, and misses
-- **Visual Feedback System**: Hit/miss markers and combo counter
-- **Cyberpunk Theme**: Neon colors, glassmorphism effects, and smooth animations
-- **Responsive Design**: Works on desktop and mobile devices
-- **30-Second Timed Sessions**: Quick gameplay sessions with final stats
+- Three difficulty levels: Easy, Medium, and Hard
+- 30-second timed gameplay sessions
+- Real-time stat tracking (score, accuracy, reaction time, combo)
+- Visual feedback for hits, misses, and combo streaks
+- Cyberpunk-inspired UI with animations
+- Responsive layout for desktop and mobile devices
+
+---
 
 ## How to Play
 
-1. Select your difficulty level (Easy/Medium/Hard)
-2. Click "Start Game" to begin
-3. Click on targets as they appear
-4. Try to maintain a combo streak for bonus points
-5. View your final stats when the timer runs out
+1. Select a difficulty level (Easy / Medium / Hard)
+2. Click **Start Game**
+3. Click targets as they appear
+4. Maintain hit streaks to increase your combo
+5. Review your performance stats when the session ends
 
-## Technical Implementation
+---
 
-### Technologies Used
-- **HTML5**: Semantic structure
-- **CSS3**: Custom properties, animations, flexbox
-- **Vanilla JavaScript**: ES6+ features, DOM manipulation
+## Controls
 
-### Key Components
+- **Mouse click** – Hit targets
+- **Start Game** – Start a session
+- **Stop Game** – End the session early
+- **Difficulty buttons** – Set difficulty before starting
 
-**Game Logic** ([shooting.js](shooting.js))
-- Target spawning with random positioning
-- Hit detection with bounding box validation
-- Stats calculation and real-time updates
-- Timeout management using Map data structure
-- Visual feedback system
+---
 
-**Styling** ([style.css](style.css))
-- CSS custom properties for theming
-- Glassmorphism effects
-- Keyframe animations
-- Responsive breakpoints
+## Tech Stack
 
-**Structure** ([index.html](index.html))
-- Semantic HTML5
-- Accessible markup
-- Stats panel with live updates
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
 
-## Development Process
+No external libraries or frameworks are used.
 
-### Initial Development
-The base game was developed independently, including:
-- Core game loop and target spawning
-- Basic hit detection
-- Score tracking
-- UI layout and controls
-
-### AI-Assisted Refinements
-The following enhancements were implemented with assistance from Claude Sonnet 3.5 and GitHub Copilot:
-
-**Bug Fixes:**
-- Fixed target flickering when same target selected consecutively
-- Resolved premature target disappearance using timeout Map
-- Improved hit detection for small targets with bounding box check
-- Fixed missing notification on auto-game-end
-
-**Feature Enhancements:**
-- Added visual feedback system (hit/miss markers, combo display)
-- Implemented comprehensive stats tracking
-- Enhanced cyberpunk styling with animations
-- Optimized layout to fit on one screen without scrolling
-
-**Code Quality:**
-- Refactored duplicate code in game end logic
-- Removed unused functions
-- Added inline documentation
-- Improved code organization
-
-### Development Tools
-- **Code Editor**: Visual Studio Code
-- **AI Assistants**: Claude Sonnet 3.5, GitHub Copilot
-- **Browser DevTools**: Chrome DevTools for debugging
-- **Version Control**: Git (manual commits)
-
-## Learning Outcomes Demonstrated
-
-**Primary: LO3 - Software Design and Realisation**
-- Created interactive software using vanilla JavaScript
-- Implemented quality criteria (performance, maintainability, UX)
-- Documented development process and technical decisions
-- Used modern web development best practices
-
-**Secondary: LO1 & LO2 - User Interaction**
-- Implemented visual feedback system for better UX
-- Created responsive, accessible interfaces
+---
 
 ## Known Limitations
 
-- No persistent high score storage (could add localStorage)
-- Limited to 6 targets (could be made configurable)
-- No sound effects (could enhance user feedback)
+- No persistent high-score storage
+- Fixed number of targets per session
+- No sound effects
 
-## Future Improvements
-
-- Add difficulty progression system
-- Implement leaderboard with localStorage
-- Add sound effects and music
-- Create additional game modes (moving targets, time attack)
-- Add customizable themes
+---
 
 ## Acknowledgments
 
-- Base game concept inspired by Aim Lab
-- AI assistance provided by Claude Sonnet 3.5 and GitHub Copilot for refinements and bug fixes
-- Cyberpunk color palette inspired by modern UI design trends
+- Game concept inspired by Aim Lab  
+- AI assistance used during development for refinement and bug fixing (Claude Sonnet 3.5, GitHub Copilot)
