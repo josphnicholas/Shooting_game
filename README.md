@@ -44,9 +44,16 @@ Deployed on Netlify.
 
 ## Tech Stack
 
+<<<<<<< HEAD
 - HTML5
 - CSS3
 - Vanilla JavaScript (ES6+)
+=======
+**Structure** ([index.html](index.html))
+- Semantic HTML5
+- Accessible markup
+- Stats panel with live updates
+>>>>>>> dc50ee973bac363ca1471fabfaca3ca0df86e089
 
 No external libraries or frameworks are used.
 
